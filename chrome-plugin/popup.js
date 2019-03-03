@@ -9,7 +9,9 @@ var p = new Promise(function (resolve, reject) {
         phoneNumber=result.sms;
     });
 });
-const unlockURL = "chrome-extension://mfkmnfhjcbaifnddbaokfegjfoojglim/unlock.html"
+
+const id = chrome.runtime.id;
+const unlockURL = `chrome-extension://${id}/unlock.html`
 
 const API_KEY = "0a90fcfd997324346abb2afc1f8a45d59b2751cdCndhVwFbfI4PoGtL1kcgnlWHo"
 
@@ -174,5 +176,5 @@ chrome.storage.sync.get('permaLock', function(data) {
 });
 
 cog.onclick = function(element) {
-    chrome.tabs.create({url:'chrome-extension://jdabjamledpmdlcpebalpmehbpemjpjj/options.html'});
+    chrome.tabs.create({url:`chrome-extension://${id}/options.html`});
 };
