@@ -9,7 +9,9 @@ var p = new Promise(function (resolve, reject) {
         phoneNumber=result.sms;
     });
 });
-const unlockURL = "chrome-extension://mfkmnfhjcbaifnddbaokfegjfoojglim/unlock.html"
+
+const id = chrome.runtime.id;
+const unlockURL = `chrome-extension://${id}/unlock.html`
 
 const API_KEY = "0a90fcfd997324346abb2afc1f8a45d59b2751cdCndhVwFbfI4PoGtL1kcgnlWHo"
 
@@ -58,24 +60,58 @@ var shufflePromise = new Promise(function (resolve, reject) {
 });
 console.log(shuffledArray);
 
+const correctListener = () => {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.executeScript(
+            tabs[0].id,
+            {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
+                'document.getElementById("password").value = "' + "Ww2VW3duGQ=[?PYqH}64E=K3" + '";'}
+        );
+    });
+    chrome.storage.sync.set({ shuffled: false, shuffledArray: undefined });
+    window.close();
+}
+
+const noBuenoListener = () => {
+    chrome.storage.sync.get('hasBeenLocked', function(data) {
+        if(data.hasBeenLocked) {
+            chrome.storage.sync.set({ permaLock: true });
+            sendText();
+            permaLock();
+        }
+        else lockout();
+    });
+}
+
 function constructOptions(shuffledArray) {
 	for (item in shuffledArray) {
         let img = document.createElement('img');
         let number = 'img'+String(parseInt(item)+1);
         let data = document.getElementById(number)
         img.src = shuffledArray[item];
-		img.addEventListener('click', function() {
-			console.log('color is ' + item);
-		});
-        data.append(img)
+        data.append(img);
+        
+        if(shuffledArray[item] === "images/passimage2.jpg") {
+            console.log("running");
+            img.addEventListener('click', function() {
+                correctListener();
+            });
+        }
+        else {
+            img.addEventListener('click', function() {
+                noBuenoListener();
+            });
+        }
     }
     chrome.storage.sync.set({shuffledArray: shuffledArray, shuffled: true});
 }
 
 const sendText = () => {
+    let code = Math.floor(Math.random() * 100000) + "";
+    chrome.storage.sync.set({unlockCode: code});
     const data = {
         number: phoneNumber, 
-        message: `Go to ${unlockURL} to unlock pass.jpg!`,
+        message: `Your pass.jpg unlock code is ${code}`,
         key: API_KEY,
     }   
     fetch("https://textbelt.com/text", {
@@ -101,6 +137,7 @@ const lockout = () => {
     update();
 
     document.getElementById('overlay').className = "visible";
+    document.getElementById("unlock").className = "noUnlock";
 
     chrome.storage.sync.set({ isLocked: true });
     const timer = () => {
@@ -119,9 +156,21 @@ const lockout = () => {
     const counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 }
 
+document.getElementById("sumbitUnlock").onclick = () => {
+    const input = document.getElementById("submitInput");
+    chrome.storage.sync.get('unlockCode', function(data) {
+        if(data.unlockCode === input.value) {
+            chrome.storage.sync.set({ permaLock: false, hasBeenLocked: false });
+            window.location.reload(false);
+        }
+        else document.getElementById('lockWarning').innerText = `Invalid unlock code :(`;;
+    });
+}
+
 const permaLock = () => {
     document.getElementById('overlay').className = "visible";
-    document.getElementById('lockWarning').innerText = `Locked permanently. Click link in text to unlock.`;
+    document.getElementById("unlock").className = "unlock";
+    document.getElementById('lockWarning').innerText = `Locked permanently. Enter unlock code to unlock.`;
 }
 
 function GetInputType () {
@@ -143,24 +192,5 @@ chrome.storage.sync.get('permaLock', function(data) {
 });
 
 cog.onclick = function(element) {
-    chrome.tabs.create({url:'chrome-extension://jdabjamledpmdlcpebalpmehbpemjpjj/options.html'});
-};
-
-changeColor.onclick = function(element) {
-    chrome.storage.sync.get('hasBeenLocked', function(data) {
-        if(data.hasBeenLocked) {
-            chrome.storage.sync.set({ permaLock: true });
-            sendText();
-            permaLock();
-        }
-        else lockout();
-    });
-  
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.executeScript(
-            tabs[0].id,
-            {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
-                'document.getElementById("password").value = "' + "Ww2VW3duGQ=[?PYqH}64E=K3" + '";'}
-        );
-    });
+    chrome.tabs.create({url:`chrome-extension://${id}/options.html`});
 };
