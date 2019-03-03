@@ -1,18 +1,61 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
         <style>
             img {
-                
                 height: 100px;
                 width: 100px;
                 outline: none;
-                
+            }
+            button {
+                height: 300px;
+                width: 300px;
+                outline-style: outset;
+                outline-color: #4AA9D7;
+            }
+            #overlay {
+                position: fixed; /* Sit on top of the page content */
+                width: 100%; /* Full width (cover the whole page) */
+                height: 100%; /* Full height (cover the whole page) */
+                top: 0; 
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+                z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+                cursor: pointer; /* Add a pointer on hover */
+            }
+            .hidden {
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0.25s, opacity 0.25s linear;
+            }
+            .visible {
+                visibility: visible;
+                opacity: 1;
+                transition: visibility 0s, opacity 0.25s linear;
+            }
+            .lockWarning {
+                text-align: center;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-family: 'Lato', sans-serif;
+                font-size: 2em;
             }
         </style>
     </head>
     <body>
+        <div id="overlay" class="hidden">
+            <div class="lockWarning">
+                <img src="images/icons8-lock.svg" height="78">
+                <p id="lockWarning">Locked for 45s</p>
+            </div>
+        </div>
         <table id="imgTable">
             <tr>
                 <td id="img1"></td>
@@ -40,10 +83,9 @@
             </tr>
         </table>
         <div id="imgDiv"></div>
-		<div>
-			<p>Select your corresponding image password</p>
-		</div>
-        <!--<img id="placeHolder" src = "images/passimage1.jpg"> </img> -->
-       <script src="popup.js"></script>
+        <div>
+            <p>Select your corresponding image password</p>
+        </div>
+        <script src="popup.js"></script>
     </body>
 </html>
