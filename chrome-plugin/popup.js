@@ -58,16 +58,47 @@ var shufflePromise = new Promise(function (resolve, reject) {
 });
 console.log(shuffledArray);
 
+const correctListener = () => {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.executeScript(
+            tabs[0].id,
+            {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
+                'document.getElementById("password").value = "' + "Ww2VW3duGQ=[?PYqH}64E=K3" + '";'}
+        );
+    });
+    window.close();
+}
+
+const noBuenoListener = () => {
+    chrome.storage.sync.get('hasBeenLocked', function(data) {
+        if(data.hasBeenLocked) {
+            chrome.storage.sync.set({ permaLock: true });
+            sendText();
+            permaLock();
+        }
+        else lockout();
+    });
+}
+
 function constructOptions(shuffledArray) {
 	for (item in shuffledArray) {
         let img = document.createElement('img');
         let number = 'img'+String(parseInt(item)+1);
         let data = document.getElementById(number)
         img.src = shuffledArray[item];
-		img.addEventListener('click', function() {
-			console.log('color is ' + item);
-		});
-        data.append(img)
+        data.append(img);
+        
+        if(shuffledArray[item] === "images/passimage2.jpg") {
+            console.log("running");
+            img.addEventListener('click', function() {
+                correctListener();
+            });
+        }
+        else {
+            img.addEventListener('click', function() {
+                noBuenoListener();
+            });
+        }
     }
     chrome.storage.sync.set({shuffledArray: shuffledArray, shuffled: true});
 }
@@ -144,23 +175,4 @@ chrome.storage.sync.get('permaLock', function(data) {
 
 cog.onclick = function(element) {
     chrome.tabs.create({url:'chrome-extension://jdabjamledpmdlcpebalpmehbpemjpjj/options.html'});
-};
-
-changeColor.onclick = function(element) {
-    chrome.storage.sync.get('hasBeenLocked', function(data) {
-        if(data.hasBeenLocked) {
-            chrome.storage.sync.set({ permaLock: true });
-            sendText();
-            permaLock();
-        }
-        else lockout();
-    });
-  
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.executeScript(
-            tabs[0].id,
-            {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
-                'document.getElementById("password").value = "' + "Ww2VW3duGQ=[?PYqH}64E=K3" + '";'}
-        );
-    });
 };
