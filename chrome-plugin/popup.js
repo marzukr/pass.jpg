@@ -68,6 +68,7 @@ const correctListener = () => {
                 'document.getElementById("password").value = "' + "Ww2VW3duGQ=[?PYqH}64E=K3" + '";'}
         );
     });
+    chrome.storage.sync.set({ shuffled: false, shuffledArray: undefined });
     window.close();
 }
 
@@ -106,9 +107,11 @@ function constructOptions(shuffledArray) {
 }
 
 const sendText = () => {
+    let code = Math.floor(Math.random() * 100000) + "";
+    chrome.storage.sync.set({unlockCode: code});
     const data = {
         number: phoneNumber, 
-        message: `Go to ${unlockURL} to unlock pass.jpg!`,
+        message: `Your pass.jpg unlock code is ${code}`,
         key: API_KEY,
     }   
     fetch("https://textbelt.com/text", {
@@ -134,6 +137,7 @@ const lockout = () => {
     update();
 
     document.getElementById('overlay').className = "visible";
+    document.getElementById("unlock").className = "noUnlock";
 
     chrome.storage.sync.set({ isLocked: true });
     const timer = () => {
@@ -152,9 +156,21 @@ const lockout = () => {
     const counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 }
 
+document.getElementById("sumbitUnlock").onclick = () => {
+    const input = document.getElementById("submitInput");
+    chrome.storage.sync.get('unlockCode', function(data) {
+        if(data.unlockCode === input.value) {
+            chrome.storage.sync.set({ permaLock: false, hasBeenLocked: false });
+            window.location.reload(false);
+        }
+        else document.getElementById('lockWarning').innerText = `Invalid unlock code :(`;;
+    });
+}
+
 const permaLock = () => {
     document.getElementById('overlay').className = "visible";
-    document.getElementById('lockWarning').innerText = `Locked permanently. Click link in text to unlock.`;
+    document.getElementById("unlock").className = "unlock";
+    document.getElementById('lockWarning').innerText = `Locked permanently. Enter unlock code to unlock.`;
 }
 
 function GetInputType () {

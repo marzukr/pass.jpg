@@ -54,6 +54,19 @@
             i{
                 float:right;
             }
+            .unlock {
+                display: block;
+            }
+            .noUnlock {
+                display: none;
+            }
+            .submitButton {
+                height: 2em;
+                width: 6em;
+            }
+            .submitInput {
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -61,6 +74,11 @@
             <div class="lockWarning">
                 <img src="images/icons8-lock.svg" height="78">
                 <p id="lockWarning"></p>
+                <div id="unlock" class="baseUnlock">
+                    <input id="submitInput" class="submitInput" type="text" placeholder="Unlock Code"></input>
+                    <br>
+                    <button class="submitButton" id="sumbitUnlock">Unlock</button>
+                </div>
             </div>
         </div>
         <table id="imgTable">
