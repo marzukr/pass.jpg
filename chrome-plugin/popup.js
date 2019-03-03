@@ -4,10 +4,13 @@
 
 //Zuk Constants
 var phoneNumber = "";
+var p = new Promise(function (resolve, reject) {
+    chrome.storage.sync.get(['sms'], function(result) {
+        phoneNumber=result.sms;
+    });
+});
 const unlockURL = "chrome-extension://mfkmnfhjcbaifnddbaokfegjfoojglim/unlock.html"
-chrome.storage.sync.get(['sms'], function(result) {
-    phoneNumber = result.sms;
-  });
+
 const API_KEY = "0a90fcfd997324346abb2afc1f8a45d59b2751cdCndhVwFbfI4PoGtL1kcgnlWHo"
 
 let changeColor = document.getElementById('imgTable');
@@ -32,7 +35,6 @@ function constructOptions(imageSet) {
 }
 
 constructOptions(imageSet);
-
 const sendText = () => {
     const data = {
         number: phoneNumber, 
@@ -67,7 +69,11 @@ const lockout = () => {
             document.getElementById('overlay').className = "hidden";
             return;
         }
-        document.getElementById('lockWarning').innerText = `Locked for ${count}s`;
+        if(!phoneNumber){
+            document.getElementById('lockWarning').innerText = `Make sure to register your phone number ${count}`;
+        }else{
+            document.getElementById('lockWarning').innerText = `Locked for ${count}s`;        
+        }
     }
     const counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 }
