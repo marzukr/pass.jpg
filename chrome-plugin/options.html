@@ -1,20 +1,202 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<style>
-			button {
-				height: 30px;
-				width: 30px;
-				outline: none;
-				margin: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="buttonDiv"></div>
-		<div>
-			<p>Choose a different background color!</p>
-		</div>
-	</body>
+<HTML>
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <style>
+
+        html {
+            font-family: 'Lato', sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .title {
+            background-color: #5c98f9;
+            position: absolute;
+            font-size: 5em;
+            color: white;
+            height: 9.5em;
+            width: 100%;
+            text-align: center;
+            box-shadow:0px 2px 10px gray;
+        }
+        
+        .title p {
+            margin-top: 3em;
+        }
+        
+        button {
+            position: relative;
+            transition: .3s;
+            display: block;
+            padding: 1em;
+            width: 8.7em;
+            font-size: 2em;
+            margin-top: 1em;
+            margin-left: 28em;
+            outline: none;
+            border-radius: 10em;
+            border: none;
+            background-color: white;
+            color: black;
+        }
+        
+        button:hover {
+            width: 10em;
+            margin-left: 27.35em;
+            background-color: #ededed;
+            cursor: pointer;
+        }
+        
+        button:active {
+            background-color: #cecece;
+            border-style: solid;
+            border-color: #aaa;
+            border-width: 2px;
+            transition: .3s;
+        }
+        
+        input {
+            position: relative;
+            display: block;
+            width: 8.7em;
+            margin-top: -3.3em;
+            margin-left: 6em;
+            border-radius: 30em;
+            border: none;
+            outline: none;
+            padding: 1em;
+            font-size: 2em;
+            text-align: center;
+            transition:.3s;
+            padding-left:1.5em;
+        }
+        
+        #sms {
+            color: #aaa;
+            position: absolute;
+            margin-top: -1.8em;
+            margin-left: 5.3em;
+            font-size:2.5em;
+        }
+
+        input[type=text]:focus{
+            transition:.3s;
+            color:dodgerblue;
+            border-color:dodgerblue;
+            box-shadow:0 0 8px 0 black;
+        }
+        
+        i {
+            display: block;
+            size: 3em;
+            font-size: 3em;
+            color: white;
+            text-align: center;
+        }
+        
+        .bottomBar {
+            position: absolute;
+            display: block;
+            margin-top: 100em;
+            height: 10em;
+            background-color: #5c98f9;
+            width: 100%;
+            box-shadow:0px -2px 10px gray;
+        }
+        
+        .header {
+            position: fixed;
+            color: #2061c9;
+            font-size: 3em;
+            margin-left: 3em;
+        }
+        
+        .description {
+            position: fixed;
+            color: black;
+            font-size: 2em;
+            margin-left: 6em;
+        }
+        
+        #whatIs {
+            margin-top: 0.5em;
+        }
+        
+        #whatIsDesc {
+            margin-top: 2.7em;
+        }
+        
+        #howDoes {
+            margin-top: 4.3em;
+        }
+        
+        #howDoesDesc {
+            margin-top: 8.4em;
+        }
+        
+        #whyImages {
+            margin-top: 9em;
+        }
+        
+        #whyImagesDesc {
+            margin-top: 15.5em;
+        }
+        
+        #binary {
+            position: fixed;
+            height: 100vh;
+            width: 100%;
+            opacity: 0.5;
+        }
+        
+        #banner {
+            position: relative;
+            margin-top: -10em;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+		p{
+			padding:20px;
+		}
+        
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="binary" src="passbackground.png">
+    <p class="header" id="whatIs">What is <strong>pass.jpg</strong>?</p>
+    <p class="description" id="whatIsDesc">Pass.jpg is an innovative solution to secure password storage. It uses images not only to create an extra layer of security to your passwords, but also to make it easy to keep track of and manage them.</p>
+    <p class="header" id="howDoes">How does it work?</p>
+    <p class="description" id="howDoesDesc">Pass.jpg encrypts a secure 16-character string into an image of your choosing by RSA encryption. We take a secure password, and combine our encryption image with your image to create a key. We then encrypt that secure password even further, embedding
+        that into your image using stegonography.</p>
+    <p class="header" id="whyImages">Why images?</p>
+    <p class="description" id="whyImagesDesc">We found that images are easier to remember than text. This means that we can lock<br>out a person after only 2 failed attempts. The images also mean that even if someone<br>logs into your account, they still have to correctly guess your image rather than
+        getting access to all your passwords.</p>
+    <!-- <div class="title"><p><b>pass.jpg</b></p></div> -->
+	<div class="title"></div>
+    <i class="fas fa-chevron-down"></i>
+    <div class="bottomBar">
+        <button id="buttnum" onclick="window.location.href='page2.html'">Secure me!</button>
+        <div class="phoneNum">
+            <input type="text" placeholder="Phone Number" class="textField" id="textField">
+            <i class="fas fa-sms" id="sms"></i>
+        </div>
+	</div>
+	<img id="banner" src="banner.png">
 	<script src="options.js"></script>
-</html>
+</body>
+
+</HTML>

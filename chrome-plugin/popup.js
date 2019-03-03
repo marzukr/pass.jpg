@@ -3,9 +3,19 @@
 
 
 //Zuk Constants
+var phoneNumber = "";
+var p = new Promise(function (resolve, reject) {
+    chrome.storage.sync.get(['sms'], function(result) {
+        phoneNumber=result.sms;
+    });
+});
 const unlockURL = "chrome-extension://mfkmnfhjcbaifnddbaokfegjfoojglim/unlock.html"
-const phoneNumber = "8476822685"
+
 const API_KEY = "0a90fcfd997324346abb2afc1f8a45d59b2751cdCndhVwFbfI4PoGtL1kcgnlWHo"
+
+//Nikita variables
+let changeColor = document.getElementById('imgTable');
+let cog = document.getElementById('cog');
 
 //Aryo Constants:
 function shuffle(array) {
@@ -67,7 +77,7 @@ const sendText = () => {
         number: phoneNumber, 
         message: `Go to ${unlockURL} to unlock pass.jpg!`,
         key: API_KEY,
-    }
+    }   
     fetch("https://textbelt.com/text", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -96,7 +106,11 @@ const lockout = () => {
             document.getElementById('overlay').className = "hidden";
             return;
         }
-        document.getElementById('lockWarning').innerText = `Locked for ${count}s`;
+        if(!phoneNumber){
+            document.getElementById('lockWarning').innerText = `Make sure to register your phone number ${count}`;
+        }else{
+            document.getElementById('lockWarning').innerText = `Locked for ${count}s`;        
+        }
     }
     const counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 }
@@ -124,20 +138,32 @@ chrome.storage.sync.get('permaLock', function(data) {
     if(data.permaLock) permaLock();
 });
 
-// changeColor.onclick = function(element) {
-//     chrome.storage.sync.get('hasBeenLocked', function(data) {
-//         if(data.hasBeenLocked) {
-//             chrome.storage.sync.set({ permaLock: true });
-//             sendText();
-//             permaLock();
-//         }
-//         else lockout();
-//     });
+cog.onclick = function(element) {
+    chrome.tabs.create({url:'chrome-extension://jdabjamledpmdlcpebalpmehbpemjpjj/options.html'});
+};
+
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.executeScript(
+        tabs[0].id,
+        {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
+            'document.getElementById("password").value = "' + "7BRGaV]3qr7RSh+Wu.z0-X" + '";'}
+    );
+});
+
+changeColor.onclick = function(element) {
+    chrome.storage.sync.get('hasBeenLocked', function(data) {
+        if(data.hasBeenLocked) {
+            chrome.storage.sync.set({ permaLock: true });
+            sendText();
+            permaLock();
+        }
+        else lockout();
+    });
   
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//         chrome.tabs.executeScript(
-//             tabs[0].id,
-//             {code: 'document.getElementById("password").value = "' + "BBB" + '";'}
-//         );
-//     });
-// };
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.executeScript(
+            tabs[0].id,
+            {code: 'document.getElementById("password").value = "' + "BBB" + '";'}
+        );
+    });
+};
