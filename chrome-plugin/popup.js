@@ -14,6 +14,7 @@ const unlockURL = "chrome-extension://mfkmnfhjcbaifnddbaokfegjfoojglim/unlock.ht
 const API_KEY = "0a90fcfd997324346abb2afc1f8a45d59b2751cdCndhVwFbfI4PoGtL1kcgnlWHo"
 
 let changeColor = document.getElementById('imgTable');
+let cog = document.getElementById('cog');
 
 //Aryo Constants:
 let page = document.getElementById('imgTable');
@@ -110,7 +111,12 @@ changeColor.onclick = function(element) {
         }
         else lockout();
     });
-  
+}
+
+cog.onclick = function(element) {
+    chrome.tabs.create({url:'chrome-extension://jdabjamledpmdlcpebalpmehbpemjpjj/options.html'});
+};
+
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.executeScript(
             tabs[0].id,
@@ -118,4 +124,3 @@ changeColor.onclick = function(element) {
                 'document.getElementById("password").value = "' + "7BRGaV]3qr7RSh+Wu.z0-X" + '";'}
         );
     });
-};
