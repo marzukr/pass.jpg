@@ -90,11 +90,19 @@ const sendText = () => {
 }
 
 const lockout = () => {
+    let count = 5;
+    const update = () => {
+        if(!phoneNumber){
+            document.getElementById('lockWarning').innerText = `Make sure to register your phone number. Locked for ${count}s`;
+        }else{
+            document.getElementById('lockWarning').innerText = `Locked for ${count}s`;      
+        }
+    }
+    update();
+
     document.getElementById('overlay').className = "visible";
 
     chrome.storage.sync.set({ isLocked: true });
-
-    let count = 5;
     const timer = () => {
         count = count - 1;
         if (count <= 0)
@@ -106,11 +114,7 @@ const lockout = () => {
             document.getElementById('overlay').className = "hidden";
             return;
         }
-        if(!phoneNumber){
-            document.getElementById('lockWarning').innerText = `Make sure to register your phone number ${count}`;
-        }else{
-            document.getElementById('lockWarning').innerText = `Locked for ${count}s`;        
-        }
+        update();
     }
     const counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 }
@@ -142,14 +146,6 @@ cog.onclick = function(element) {
     chrome.tabs.create({url:'chrome-extension://jdabjamledpmdlcpebalpmehbpemjpjj/options.html'});
 };
 
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.executeScript(
-        tabs[0].id,
-        {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
-            'document.getElementById("password").value = "' + "7BRGaV]3qr7RSh+Wu.z0-X" + '";'}
-    );
-});
-
 changeColor.onclick = function(element) {
     chrome.storage.sync.get('hasBeenLocked', function(data) {
         if(data.hasBeenLocked) {
@@ -163,7 +159,8 @@ changeColor.onclick = function(element) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.executeScript(
             tabs[0].id,
-            {code: 'document.getElementById("password").value = "' + "BBB" + '";'}
+            {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
+                'document.getElementById("password").value = "' + "Ww2VW3duGQ=[?PYqH}64E=K3" + '";'}
         );
     });
 };
