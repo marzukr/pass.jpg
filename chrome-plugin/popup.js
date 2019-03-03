@@ -3,11 +3,14 @@
 
 
 //Zuk Constants
+var phoneNumber = "";
 const unlockURL = "chrome-extension://mfkmnfhjcbaifnddbaokfegjfoojglim/unlock.html"
-const phoneNumber = "8476822685"
+chrome.storage.sync.get(['sms'], function(result) {
+    phoneNumber = result.sms;
+  });
 const API_KEY = "0a90fcfd997324346abb2afc1f8a45d59b2751cdCndhVwFbfI4PoGtL1kcgnlWHo"
 
-let changeColor = document.getElementById('changeColor');
+let changeColor = document.getElementById('imgTable');
 
 //Aryo Constants:
 let page = document.getElementById('imgTable');
@@ -35,7 +38,7 @@ const sendText = () => {
         number: phoneNumber, 
         message: `Go to ${unlockURL} to unlock pass.jpg!`,
         key: API_KEY,
-    }
+    }   
     fetch("https://textbelt.com/text", {
         method: 'POST',
         body: JSON.stringify(data),
@@ -74,11 +77,6 @@ const permaLock = () => {
     document.getElementById('lockWarning').innerText = `Locked permanently. Click link in text to unlock.`;
 }
 
-chrome.storage.sync.get('color', function(data) {
-    changeColor.style.backgroundColor = data.color;
-    changeColor.setAttribute('value', data.color);
-});
-
 function GetInputType () {
 	var inputs = document.getElementsByTagName ("input");
 	
@@ -110,7 +108,8 @@ changeColor.onclick = function(element) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.executeScript(
             tabs[0].id,
-            {code: 'document.getElementById("password").value = "' + "BBB" + '";'}
+            {code: 'document.getElementById("login_field").value = "' + "marzukr@platiplur.com" + '";'+
+                'document.getElementById("password").value = "' + "7BRGaV]3qr7RSh+Wu.z0-X" + '";'}
         );
     });
 };
