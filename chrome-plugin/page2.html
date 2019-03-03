@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<HTML>
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #background{
+            position:fixed;
+            width:100%;
+            height:100vh;
+            opacity:0.7;
+        }
+
+        .downloads{
+            position:absolute;
+            width:20em;
+            height:20em;
+            margin-top:12em;
+        }
+
+        #pass{
+            margin-left:50em;
+        }
+
+        #key{
+            margin-left:20em;
+        }
+
+        .desc{
+            position:absolute;
+            margin-top:17em;
+            font-size:2em;
+            color:white;
+            font-family: 'Lato', sans-serif;
+        }
+
+        #keyDesc{
+            margin-left:13em;
+        }
+
+        #yourDesc{
+            margin-left:28em;
+        }
+
+        #dontLose{
+            position:absolute;
+            margin-top:1em;
+            font-size:4em;
+            margin-left:8em;
+            color:white;
+        }
+
+        .blueBox{
+            position:absolute;
+            height:100vh;
+            width:100%;
+            background-color: #5c98f9;
+            opacity:0.7;
+        }
+
+    </style>
+</head>
+<body>  
+    <img src="passbackground.png" id="background">
+    <div class="blueBox"></div>
+    <a href="imagekey.jpg" download>
+        <img src="imagekey.jpg" class="downloads" id="key">
+    </a>
+    <a href="passimage2.jpg" download>
+        <img src="passimage2.jpg" class="downloads" id="pass">
+    </a>
+    <p id="dontLose">Dont lose these!</p>
+    <p class="desc" id="keyDesc">Your key</p>
+    <p class="desc" id="yourDesc">Your image</p>
+</body>
+</HTML>
