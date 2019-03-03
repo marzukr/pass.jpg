@@ -2,7 +2,7 @@
     "name": "pass.jpg",
     "version": "1.0",
     "description": "The simple and secure way to make a password",
-    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "permissions": ["activeTab", "declarativeContent", "storage", "tabs"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false
