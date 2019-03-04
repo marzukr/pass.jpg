@@ -107,7 +107,7 @@ function constructOptions(shuffledArray) {
 }
 
 const sendText = () => {
-    let code = Math.floor(Math.random() * 100000) + "";
+    let code = (Math.floor(Math.random() * 16**16)).toString(16).padStart(16, "0").toUpperCase();
     chrome.storage.sync.set({unlockCode: code});
     const data = {
         number: phoneNumber, 
@@ -159,7 +159,7 @@ const lockout = () => {
 document.getElementById("sumbitUnlock").onclick = () => {
     const input = document.getElementById("submitInput");
     chrome.storage.sync.get('unlockCode', function(data) {
-        if(data.unlockCode === input.value) {
+        if(data.unlockCode === input.value.toUpperCase()) {
             chrome.storage.sync.set({ permaLock: false, hasBeenLocked: false });
             window.location.reload(false);
         }
